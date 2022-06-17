@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import { program } from 'commander';
 import path from 'path';
 import { DistPackageOptions } from './dist-package.options';
-import * as fs from 'fs';
+import fs from 'fs';
 import prettier from 'prettier';
 
 program.version('0.1.0').option('-o, --output <path>', 'The output file path').parse(process.argv);
