@@ -45,13 +45,11 @@ try {
 }
 
 if (options.revisionIncrement && packageJSON.version) {
-    let version: string = packageJSON.version;
+    const version: string = packageJSON.version;
 
-    let [major, minor, revision] = version.split('.').map(x => Number(x));
+    const [major, minor, revision] = version.split('.').map(x => Number(x));
 
-    ++revision;
-
-    packageJSON.version = `${major}.${minor}.${revision}`;
+    packageJSON.version = `${major}.${minor}.${revision + 1}`;
 
     fs.writeFileSync(packagePath, prettier.format(JSON.stringify(packageJSON), { parser: 'json' }));
 }
@@ -74,7 +72,7 @@ if (options.properties) {
         process.exit();
     }
 }
- 
+
 if (options.include) {
     options.include.forEach(x =>
         glob(x, (error, files) => {

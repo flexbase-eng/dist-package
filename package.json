@@ -1,6 +1,6 @@
 {
   "name": "@flexbase/dist-package",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Transform package.json for publishing packages",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
     "lint": "eslint 'src/**/*.{ts,tsx,json}'",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
     "test": "echo none yet",
-    "pack": "dist/index.js"
+    "package": "dist/index.js"
   },
   "dependencies": {
     "chalk": "^5.0.1",

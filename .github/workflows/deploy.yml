@@ -6,7 +6,9 @@ on:
 jobs:
   build:
     uses: flexbase-eng/.github/.github/workflows/typescript.build.yml@main
-  
+      with:
+      package_folder: output
+      
   # coverage:
   #   needs: build
   #   uses: flexbase-eng/.github/.github/workflows/typescript.sonarcloud.yml@main
