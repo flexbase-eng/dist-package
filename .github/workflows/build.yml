@@ -18,7 +18,7 @@ jobs:
 
   publish:
     needs: build
-    uses: flexbase-eng/.github/.github/workflows/typescript.publish.yml@main
+    uses: flexbase-eng/.github/.github/workflows/typescript.publish.npm.yml@main
     with:
       tag: beta
     secrets:
