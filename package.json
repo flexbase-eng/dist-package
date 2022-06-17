@@ -62,7 +62,7 @@
       "dependencies",
       "type"
     ],
-    "include": ["dist", "readme.md", "LICENSE"]
+    "include": ["dist", "readme.md", "LICENSE", "yarn.lock"]
   },
   "prettier": {
     "semi": true,
