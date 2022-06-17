@@ -43,7 +43,7 @@ try {
     console.log(chalk.red('Unable to create output path'));
     process.exit();
 }
-
+ 
 if (options.revisionIncrement && packageJSON.version) {
     const version: string = packageJSON.version;
 
