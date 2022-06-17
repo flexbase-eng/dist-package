@@ -108,3 +108,4 @@ dist
 
 /dist
 .DS_Store
+/output

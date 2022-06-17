@@ -17,6 +17,6 @@ jobs:
 
   publish:
     needs: build
-    uses: flexbase-eng/.github/.github/workflows/typescript.publish.yml@main
+    uses: flexbase-eng/.github/.github/workflows/typescript.publish.npm.yml@main
     secrets:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

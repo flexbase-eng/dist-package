@@ -1,6 +1,6 @@
 {
   "name": "@flexbase/dist-package",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Transform package.json for publishing packages",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,30 +9,32 @@
     "type": "git",
     "url": "git@github.com:flexbase-eng/dist-package.git"
   },
-  "bugs": {
-    "url": "https://github.com/flexbase-eng/dist-package/issues"
-  },
+  "bugs": { "url": "https://github.com/flexbase-eng/dist-package/issues" },
   "author": "Flexbase",
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "type": "module",
+  "private": true,
   "scripts": {
-    "build": "tsc && chmod +x dist/index.js && dist/index.js",
+    "build": "tsc && chmod +x dist/index.js",
     "build:watch": "tsc -w",
     "start": "dist/index.js",
     "lint": "eslint 'src/**/*.{ts,tsx,json}'",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
-    "test": "echo none yet"
+    "test": "echo none yet",
+    "pack": "dist/index.js"
   },
   "dependencies": {
     "chalk": "^5.0.1",
     "commander": "^9.3.0",
+    "fs-extra": "^10.1.0",
+    "glob": "^8.0.3",
     "path": "^0.12.7",
     "prettier": "^2.7.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/glob": "^7.2.0",
     "@types/node": "^18.0.0",
     "@types/prettier": "^2.6.3",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
@@ -41,10 +43,11 @@
     "eslint-config-prettier": "^8.5.0",
     "nodemon": "^2.0.16",
     "ts-node": "^10.8.1",
-    "typescript": "^4.7.3" 
+    "typescript": "^4.7.3"
   },
   "dist-package": {
-    "output": "dist/package.json",
+    "output": "output",
+    "revisionIncrement": true,
     "properties": [
       "name",
       "version",
@@ -58,7 +61,8 @@
       "license",
       "dependencies",
       "type"
-    ]
+    ],
+    "include": ["dist", "readme.md", "LICENSE"]
   },
   "prettier": {
     "semi": true,
@@ -70,47 +74,24 @@
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
-    "plugins": [
-      "@typescript-eslint"
-    ],
+    "parserOptions": { "ecmaVersion": "latest", "sourceType": "module" },
+    "plugins": ["@typescript-eslint"],
     "extends": [
       "prettier",
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-      "no-unused-vars": [
-        "warn",
-        {
-          "vars": "all",
-          "args": "none"
-        }
-      ],
+      "no-unused-vars": ["warn", { "vars": "all", "args": "none" }],
       "@typescript-eslint/no-unused-vars": [
         "warn",
-        {
-          "vars": "all",
-          "args": "none"
-        }
+        { "vars": "all", "args": "none" }
       ],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/no-inferrable-types": "off"
     },
-    "env": {
-      "browser": true,
-      "es2021": true
-    }
+    "env": { "browser": true, "es2021": true }
   },
-  "eslintIgnore": [
-    "node_modules",
-    "dist",
-    "coverage",
-    "docs",
-    "tests"
-  ]
+  "eslintIgnore": ["node_modules", "dist", "coverage", "docs", "tests"]
 }

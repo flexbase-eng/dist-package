@@ -4,10 +4,11 @@ import chalk from 'chalk';
 import { program } from 'commander';
 import path from 'path';
 import { DistPackageOptions } from './dist-package.options';
-import fs from 'fs';
+import fs from 'fs-extra';
 import prettier from 'prettier';
+import glob from 'glob';
 
-program.version('0.1.0').option('-o, --output <path>', 'The output file path').parse(process.argv);
+program.version('0.1.0').option('-o, --output <path>', 'The output path').parse(process.argv);
 
 const cliOptions = program.opts();
 
@@ -22,9 +23,7 @@ try {
     process.exit();
 }
 
-const entries = Object.entries(packageJSON);
-
-const options: DistPackageOptions | null = <DistPackageOptions | null>entries.find(([key, _]) => key === 'dist-package')?.[1];
+const options: DistPackageOptions | null = <DistPackageOptions | null>packageJSON["dist-package"];
 
 if (!options) {
     console.log(chalk.red('Error finding "dist-package" settings in package JSON'));
@@ -38,19 +37,57 @@ if (!outputPath || outputPath.trim().length === 0) {
     process.exit();
 }
 
-const clonedProperties: Record<string, any> = {};
-
-options.properties.forEach(x => {
-    const found = entries.find(y => y[0] === x);
-    if (found) {
-        return (clonedProperties[found[0]] = found[1]);
-    }
-});
-
 try {
-    fs.writeFileSync(outputPath, prettier.format(JSON.stringify(clonedProperties), {parser: 'json'}));
+    fs.mkdirSync(outputPath, { recursive: true })
 } catch (e) {
-    console.log(chalk.red(`Error writing package.json at ${packagePath}`));
+    console.log(chalk.red('Unable to create output path'));
     process.exit();
 }
+
+if (options.revisionIncrement && packageJSON.version) {
+    let version: string = packageJSON.version;
+
+    let [major, minor, revision] = version.split('.').map(x => Number(x));
+
+    ++revision;
+
+    packageJSON.version = `${major}.${minor}.${revision}`;
+
+    fs.writeFileSync(packagePath, prettier.format(JSON.stringify(packageJSON), { parser: 'json' }));
+}
+
+if (options.properties) {
+    const clonedProperties: Record<string, any> = {};
+    const entries = Object.entries(packageJSON);
+
+    options.properties.forEach(x => {
+        const found = entries.find(y => y[0] === x);
+        if (found) {
+            return (clonedProperties[found[0]] = found[1]);
+        }
+    });
+
+    try {
+        fs.writeFileSync(path.join(outputPath, 'package.json'), prettier.format(JSON.stringify(clonedProperties), { parser: 'json' }));
+    } catch (e) {
+        console.log(chalk.red(`Error writing package.json at ${packagePath}`));
+        process.exit();
+    }
+}
  
+if (options.include) {
+    options.include.forEach(x =>
+        glob(x, (error, files) => {
+
+            if (error) {
+                console.error(chalk.red(`Error copying: ${error}`));
+                process.exit();
+            }
+
+            files.forEach(file => fs.copy(file, path.join(outputPath, file), { overwrite: true }, err => {
+                if (err) {
+                    console.error(chalk.red(`Error copying: ${err}`));
+                }
+            }));
+        }));
+}
