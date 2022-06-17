@@ -1,0 +1,117 @@
+{
+  "name": "dist-package",
+  "version": "0.1.0",
+  "description": "Transform package.json for publishing packages",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "https://github.com/flexbase-eng/dist-package",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:flexbase-eng/dist-package.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flexbase-eng/dist-package/issues"
+  },
+  "author": "Flexbase",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsc && chmod +x dist/index.js && dist/index.js",
+    "build:watch": "tsc -w",
+    "start": "dist/index.js",
+    "lint": "eslint 'src/**/*.{ts,tsx,json}'",
+    "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json}'",
+    "test": "echo none yet"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "commander": "^9.3.0",
+    "path": "^0.12.7",
+    "prettier": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/prettier": "^2.6.3",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3"
+  },
+  "dist-package": {
+    "output": "dist/package.json",
+    "properties": [
+      "name",
+      "version",
+      "description",
+      "main",
+      "types",
+      "homepage",
+      "repository",
+      "bugs",
+      "author",
+      "license",
+      "dependencies",
+      "type"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 200
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "prettier",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "no-unused-vars": [
+        "warn",
+        {
+          "vars": "all",
+          "args": "none"
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          "vars": "all",
+          "args": "none"
+        }
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-non-null-assertion": "warn",
+      "@typescript-eslint/no-inferrable-types": "off"
+    },
+    "env": {
+      "browser": true,
+      "es2021": true
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "docs",
+    "tests"
+  ]
+}
