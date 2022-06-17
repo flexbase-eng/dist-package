@@ -53,3 +53,4 @@ try {
     console.log(chalk.red(`Error writing package.json at ${packagePath}`));
     process.exit();
 }
+ 
