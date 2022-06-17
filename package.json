@@ -14,7 +14,6 @@
   },
   "author": "Flexbase",
   "license": "MIT",
-  "private": true,
   "files": [
     "dist"
   ],
