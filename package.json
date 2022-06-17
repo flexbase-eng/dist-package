@@ -1,5 +1,5 @@
 {
-  "name": "dist-package",
+  "name": "@flexbase/dist-package",
   "version": "0.1.0",
   "description": "Transform package.json for publishing packages",
   "main": "dist/index.js",
