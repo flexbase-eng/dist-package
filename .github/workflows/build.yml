@@ -7,6 +7,7 @@ jobs:
     uses: flexbase-eng/.github/.github/workflows/typescript.build.yml@main
     with:
       package_folder: output
+      revision: ${{github.run_number}}
   
   # coverage:
   #   needs: build
