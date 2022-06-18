@@ -1,6 +1,6 @@
 {
   "name": "@flexbase/packr",
-  "version": "1.1.0", 
+  "version": "1.2.0", 
   "description": "Helper utility for publishing npm packages",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -63,7 +63,8 @@
       "author",
       "license",
       "dependencies",
-      "type"
+      "type",
+      "bin"
     ],
     "include": ["dist", "readme.md", "LICENSE", "yarn.lock"]
   },
