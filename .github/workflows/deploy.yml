@@ -1,0 +1,24 @@
+name: Deploy Package
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    uses: flexbase-eng/.github/.github/workflows/typescript.build.yml@main
+    with:
+      package_folder: output
+
+  # coverage:
+  #   needs: build
+  #   uses: flexbase-eng/.github/.github/workflows/typescript.sonarcloud.yml@main
+  #   with:
+  #     project_key: flexbase-eng_dist-package
+  #   secrets:
+  #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  publish:
+    needs: build
+    uses: flexbase-eng/.github/.github/workflows/typescript.publish.npm.yml@main
+    secrets:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
