@@ -8,7 +8,6 @@ jobs:
     with:
       package_folder: output
       revision: ${{github.run_number}}
-      minor_version: 2
   
   # coverage:
   #   needs: build
