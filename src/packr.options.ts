@@ -1,6 +1,5 @@
-export interface DistPackageOptions {
+export interface PackrOptions {
     output?: string;
     properties: string[];
-    revisionIncrement: boolean;
     include: string[];
 }

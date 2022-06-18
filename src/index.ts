@@ -1,14 +1,27 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk';
-import { program } from 'commander';
+import { InvalidArgumentError, program } from 'commander';
 import path from 'path';
-import { DistPackageOptions } from './dist-package.options';
+import { PackrOptions } from './packr.options';
 import fs from 'fs-extra';
 import prettier from 'prettier';
 import glob from 'glob';
 
-program.version('0.1.0').option('-o, --output <path>', 'The output path').parse(process.argv);
+const integerParser = (value: any, _: any) => {
+    const num = parseInt(value, 10);
+    if (isNaN(num)) {
+        throw new InvalidArgumentError('Must be an integer');
+    }
+    return num;
+}
+
+program.version('0.1.0')
+    .option('-o, --output <path>', 'The output path')
+    .option('--major <number>', 'The major version number for this package', integerParser)
+    .option('--minor <number>', 'The minor version number for this package', integerParser)
+    .option('--revision <number>', 'The revision number for this package', integerParser)
+    .parse(process.argv);
 
 const cliOptions = program.opts();
 
@@ -23,10 +36,10 @@ try {
     process.exit();
 }
 
-const options: DistPackageOptions | null = <DistPackageOptions | null>packageJSON["dist-package"];
+const options: PackrOptions | null = packageJSON.packr;
 
 if (!options) {
-    console.log(chalk.red('Error finding "dist-package" settings in package JSON'));
+    console.log(chalk.red('Error finding "packr" settings in package.json'));
     process.exit();
 }
 
@@ -43,15 +56,21 @@ try {
     console.log(chalk.red('Unable to create output path'));
     process.exit();
 }
- 
-if (options.revisionIncrement && packageJSON.version) {
+
+const cliMajor = cliOptions.major;
+const cliMinor = cliOptions.minor;
+const cliRevision = cliOptions.revision;
+
+const hasVersion = cliMajor !== undefined || cliMinor !== undefined || cliRevision !== undefined;
+
+if (hasVersion && packageJSON.version) {
     const version: string = packageJSON.version;
 
     const [major, minor, revision] = version.split('.').map(x => Number(x));
 
-    packageJSON.version = `${major}.${minor}.${revision + 1}`;
+    packageJSON.version = `${cliMajor || major}.${cliMinor || minor}.${cliRevision || revision}`;
 
-    fs.writeFileSync(packagePath, prettier.format(JSON.stringify(packageJSON), { parser: 'json' }));
+    //fs.writeFileSync(packagePath, prettier.format(JSON.stringify(packageJSON), { parser: 'json' }));
 }
 
 if (options.properties) {
@@ -68,7 +87,7 @@ if (options.properties) {
     try {
         fs.writeFileSync(path.join(outputPath, 'package.json'), prettier.format(JSON.stringify(clonedProperties), { parser: 'json' }));
     } catch (e) {
-        console.log(chalk.red(`Error writing package.json at ${packagePath}`));
+        console.log(chalk.red(`Error writing package.json at ${outputPath}`));
         process.exit();
     }
 }

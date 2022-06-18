@@ -1,1 +1,1 @@
-dist-package
+Helper utility for publishing npm packages
