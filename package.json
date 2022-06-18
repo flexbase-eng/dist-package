@@ -1,5 +1,5 @@
 {
-  "name": "packr",
+  "name": "@flexbase/packr",
   "version": "0.3.0", 
   "description": "Helper utility for publishing npm packages",
   "main": "dist/index.js",
