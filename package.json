@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/flexbase-eng/packr",
   "repository": {
-    "type": "git",
+    "type": "git", 
     "url": "git@github.com:flexbase-eng/packr.git"
   },
   "bugs": { "url": "https://github.com/flexbase-eng/packr/issues" },
